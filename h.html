@@ -90,6 +90,13 @@
             color: #00796B;
             z-index: 1;
         }
+        .separator {
+            width: 100%;
+            border: none;
+            height: 2px;
+            background-color: #00796B;
+            margin: 20px 0;
+        }
     </style>
 </head>
 <body>
@@ -128,7 +135,6 @@
             
         };
     </script>
-    
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
         import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
@@ -144,12 +150,6 @@
 
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
-
-        function getDayName(dateString) {
-            const days = ["الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
-            let date = new Date(dateString);
-            return days[date.getDay()];
-        }
 
         function getFutureDate(days) {
             let date = new Date();
@@ -178,18 +178,9 @@
 
                 appointments.forEach(appointment => {
                     if (lastDate !== appointment.date) {
-                        let separatorContainer = document.createElement("div");
-                        separatorContainer.className = "separator-container";
-
                         let separator = document.createElement("hr");
-
-                        let dayLabel = document.createElement("span");
-                        dayLabel.className = "day-label";
-                        dayLabel.textContent = getDayName(appointment.date);
-
-                        separatorContainer.appendChild(separator);
-                        separatorContainer.appendChild(dayLabel);
-                        list.appendChild(separatorContainer);
+                        separator.className = "separator";
+                        list.appendChild(separator);
                     }
 
                     var isTaken = Object.values(storedAppointments).some(
@@ -225,7 +216,7 @@
             });
         }
 
-        loadAppointments(); // تحميل المواعيد عند تحميل الصفحة
+        loadAppointments();
     </script>
 </body>
 </html>
